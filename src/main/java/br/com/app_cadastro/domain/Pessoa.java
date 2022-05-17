@@ -10,11 +10,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name="tb_pessoas")
 @Data // padrão java bean
+@Getter
 @NoArgsConstructor
 
 public class Pessoa implements Serializable {
