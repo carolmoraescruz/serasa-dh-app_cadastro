@@ -1,3 +1,4 @@
+
 package br.com.app_cadastro.domain.entity;
 
 import java.io.Serializable;
@@ -23,7 +24,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name="user")
+@Table(name="users")
 public class User implements UserDetails, Serializable {
 
 	private static final long serialVersionUID = 1L;
