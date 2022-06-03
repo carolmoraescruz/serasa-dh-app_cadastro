@@ -1,6 +1,7 @@
 package br.com.app_cadastro.domain.entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,18 +13,12 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="tb_pessoas")
-@Data // padrão java bean
-@Getter
-@NoArgsConstructor
+@Table(name = "tb_pessoas")
 
-public class Pessoa implements Serializable {
-	
+public class Pessoa implements Serializable{
+
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -35,14 +30,14 @@ public class Pessoa implements Serializable {
 	@Size(max=20)
 	@Column(name="nome_pessoa")
 	private String nome;
-	
+		
 	@NotBlank
 	@Size(max=40)
 	@Column(name="sobrenome_pessoa")
 	private String sobrenome;
-	
+		
 	@NotBlank
-	@Size(max=35)
+	@Size(max=35)	
 	@Column(name="nomesocial_pessoa")
 	private String nomeSocial;
 	
@@ -51,6 +46,76 @@ public class Pessoa implements Serializable {
 	@Email
 	@Column(name="email_pessoa")
 	private String email;
-	
+
+	public Pessoa() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public Pessoa(Long id, @NotBlank @Size(max = 20) String nome, @NotBlank @Size(max = 40) String sobrenome,
+			@NotBlank @Size(max = 35) String nomeSocial, @NotBlank @Size(max = 80) @Email String email) {
+		this.id = id;
+		this.nome = nome;
+		this.sobrenome = sobrenome;
+		this.nomeSocial = nomeSocial;
+		this.email = email;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getSobrenome() {
+		return sobrenome;
+	}
+
+	public void setSobrenome(String sobrenome) {
+		this.sobrenome = sobrenome;
+	}
+
+	public String getNomeSocial() {
+		return nomeSocial;
+	}
+
+	public void setNomeSocial(String nomeSocial) {
+		this.nomeSocial = nomeSocial;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(email, id, nome, nomeSocial, sobrenome);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Pessoa other = (Pessoa) obj;
+		return Objects.equals(email, other.email) && Objects.equals(id, other.id) && Objects.equals(nome, other.nome)
+				&& Objects.equals(nomeSocial, other.nomeSocial) && Objects.equals(sobrenome, other.sobrenome);
+	}
 	
 }

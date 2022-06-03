@@ -10,22 +10,24 @@ import br.com.app_cadastro.repository.UserRepository;
 
 @Service
 public class UserService implements UserDetailsService {
-	
+
 	@Autowired
 	UserRepository repository;
-	
+
 	public UserService(UserRepository repository) {
 		this.repository = repository;
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		var user = repository.findByUserName(username);
-		if (user != null) {
-			return user;
-		} else {
-			throw new UsernameNotFoundException("Username " + username + " não localizado.");
-		}
+	public UserDetails loadUserByUsername(String username) 
+			throws UsernameNotFoundException {
+			var user = repository.findByUserName(username);
+			
+				if(user != null) {
+					return user;
+				}else {
+					throw new UsernameNotFoundException("O usuario "+username+" não localizado");
+				}
 	}
 
 }

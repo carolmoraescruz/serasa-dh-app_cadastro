@@ -1,5 +1,7 @@
 package br.com.app_cadastro.controller;
 
+import static org.springframework.http.ResponseEntity.ok;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,43 +26,42 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
-	
-	@Autowired
+
+	@Autowired	
 	AuthenticationManager authenticationManager;
-	
+
+	@Autowired
+	JwtProvider tokenProvider;
+
 	@Autowired
 	UserRepository repository;
-	
-	@Autowired
-	JwtProvider jwtProvider;
-	
-	@PostMapping(value="/signin",
-			produces={"application/json", "application.xml"},
-			consumes={"application.json", "application.xml"})
+
+	@PostMapping(value = "/signin", produces = { "application/json", "application/xml" }, 
+			consumes = { "application/json",	"application/xml" })
 	public ResponseEntity signin(@RequestBody CredenciaisContaVO cred) {
+		
 		try {
-			var username = cred.getUserName();
+			var username = cred.getUsername();
 			var password = cred.getPassword();
 			
-			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+			authenticationManager.authenticate(
+					new UsernamePasswordAuthenticationToken(username, password));
 			
 			var user = repository.findByUserName(username);
 			var token = "";
 			
-			if (user != null) {
-				token = jwtProvider.createToken(username, user.getRoles());
-			} else {
-				throw new UsernameNotFoundException("Usuário " + username + " não localizado");
+			if (user !=null) {
+				token = tokenProvider.createToken(username, user.getRoles());
+			}else {
+				throw new UsernameNotFoundException("Usuário " + username+ "não localizado");
 			}
-			
 			Map<Object, Object> model = new HashMap<>();
 			model.put("username", username);
 			model.put("token", token);
 			
-			return ResponseEntity.ok(model);
-		}
-		catch (AuthenticationException e) {
-			throw new BadCredentialsException("Usuário ou senha inválidos.");
+			return ok(model);
+		} catch (AuthenticationException e) {
+			throw new BadCredentialsException("Usuário ou senha inválidos");
 		}
 		
 	}

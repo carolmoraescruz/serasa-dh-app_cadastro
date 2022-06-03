@@ -8,8 +8,9 @@ import org.springframework.stereotype.Repository;
 import br.com.app_cadastro.domain.entity.Pessoa;
 
 @Repository
-public interface PessoaRepository extends JpaRepository<Pessoa, Long>{
+public interface  PessoaRepository  extends JpaRepository<Pessoa, Long>{
+
 
 	List<Pessoa> findByNome(String nome);
-	
+
 }
